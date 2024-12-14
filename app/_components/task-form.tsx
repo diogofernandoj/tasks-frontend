@@ -12,6 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { PlusIcon } from "lucide-react";
+import { toast } from "sonner";
+import { TaskDTO } from "../page";
 
 const formSchema = z.object({
   title: z
@@ -22,7 +24,12 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const TaskForm = () => {
+interface TaskFormProps {
+  setDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setTasks: React.Dispatch<React.SetStateAction<TaskDTO[]>>;
+}
+
+const TaskForm = ({ setDialogIsOpen, setTasks }: TaskFormProps) => {
   const form = useForm<FormSchema>({
     defaultValues: {
       title: "",
@@ -31,7 +38,24 @@ const TaskForm = () => {
   });
 
   const onSubmit = async (data: FormSchema) => {
-    console.log(data);
+    try {
+      const response = await fetch("http://localhost:4000/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: data.title }),
+      });
+
+      const task = await response.json();
+
+      setTasks((prev: TaskDTO[]) => [...prev, task]);
+      setDialogIsOpen(false);
+      return toast.success("Tarefa adicionada com sucesso!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Algo deu errado!");
+    }
   };
 
   return (

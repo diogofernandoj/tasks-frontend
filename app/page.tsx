@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "./_components/ui/data-table";
 import { columns } from "./_components/columns";
-import { Button } from "./_components/ui/button";
-import { PlusIcon } from "lucide-react";
 import AddTaskButton from "./_components/add-task-button";
 
 export interface TaskDTO {
@@ -35,7 +33,7 @@ const HomePage = () => {
             </span>
             <h2 className="text-xl font-semibold text-black">Tasks</h2>
           </div>
-          <AddTaskButton />
+          <AddTaskButton setTasks={setTasks} />
         </div>
         <DataTable columns={columns} data={tasks} />
       </div>

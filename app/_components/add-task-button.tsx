@@ -9,10 +9,18 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import TaskForm from "./task-form";
+import { useState } from "react";
+import { TaskDTO } from "../page";
 
-const AddTaskButton = () => {
+interface AddTaskButtonProps {
+  setTasks: React.Dispatch<React.SetStateAction<TaskDTO[]>>;
+}
+
+const AddTaskButton = ({ setTasks }: AddTaskButtonProps) => {
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary" className="font-bold">
           <PlusIcon /> Nova tarefa
@@ -24,7 +32,7 @@ const AddTaskButton = () => {
           <DialogDescription>Preencha os dados abaixo.</DialogDescription>
         </DialogHeader>
 
-        <TaskForm />
+        <TaskForm setTasks={setTasks} setDialogIsOpen={setDialogIsOpen} />
       </DialogContent>
     </Dialog>
   );
