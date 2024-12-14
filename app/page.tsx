@@ -24,8 +24,8 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="p-8 h-screen">
-      <div className="h-full w-full space-y-8 rounded-lg p-8 bg-white">
+    <div className="p-8 h-screen w-full overflow-hidden">
+      <div className="h-full w-full space-y-8 rounded-lg p-8 bg-white overflow-hidden flex flex-col">
         <div className="flex w-full flex-col lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-1">
             <span className="text-xs font-semibold text-gray-500">
